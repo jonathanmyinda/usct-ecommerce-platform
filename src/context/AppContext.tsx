@@ -11,6 +11,7 @@ interface CartItem extends Product {
 
 interface AppContextType {
   language: Language;
+  lang: Language;
   setLanguage: (lang: Language) => void;
   theme: Theme;
   toggleTheme: () => void;
@@ -90,7 +91,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <AppContext.Provider value={{
-      language, setLanguage, theme, toggleTheme, t,
+      language, lang: language, setLanguage, theme, toggleTheme, t,
       cart, addToCart, removeFromCart, updateQuantity, clearCart,
       cartCount, cartTotal
     }}>
@@ -101,6 +102,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 export const useApp = () => {
   const context = useContext(AppContext);
-  if (!context) throw new Error('useApp must be used within AppProvider');
+  if (!context) {
+    throw new Error('useApp must be used within AppProvider');
+  }
   return context;
 };
+
+export const useAppContext = useApp;
